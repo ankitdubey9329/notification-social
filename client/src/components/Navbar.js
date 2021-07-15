@@ -1,25 +1,77 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import {Navbar, Nav} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
-
+import { userContext } from '../context/userContext'
 const Navbartop = () => {
-    return (
-        <Navbar bg="light" expand="lg">
-            <LinkContainer to="/">
-  <Navbar.Brand>Home</Navbar.Brand>
-  </LinkContainer>
-  <Navbar.Toggle aria-controls="basic-navbar-nav" />
-  <Navbar.Collapse id="basic-navbar-nav">
-    <Nav className="mr-auto">
-        <LinkContainer to="/login">
-      <Nav.Link>Login</Nav.Link>
-      </LinkContainer>
-      <LinkContainer to="/signup">
-      <Nav.Link>Signup</Nav.Link>
-      </LinkContainer>
-    </Nav>
-  </Navbar.Collapse>
+
+  const {user,setUser} =useContext(userContext);
+
+  let returnData;
+  if(user===null){
+
+    returnData=(
+      <Navbar bg="light" expand="lg">
+      <LinkContainer to="/">
+<Navbar.Brand>Home</Navbar.Brand>
+</LinkContainer>
+<Navbar.Toggle aria-controls="basic-navbar-nav" />
+<Navbar.Collapse id="basic-navbar-nav">
+<Nav className="mr-auto">
+  <LinkContainer to="/login">
+<Nav.Link>Login</Nav.Link>
+</LinkContainer>
+<LinkContainer to="/signup">
+<Nav.Link>Signup</Nav.Link>
+</LinkContainer>
+</Nav>
+</Navbar.Collapse>
 </Navbar>
+    )
+
+  }else{
+
+    returnData=(
+
+      <Navbar bg="light" expand="lg">
+      <LinkContainer to="/">
+<Navbar.Brand>Home</Navbar.Brand>
+</LinkContainer>
+<Navbar.Toggle aria-controls="basic-navbar-nav" />
+<Navbar.Collapse id="basic-navbar-nav">
+<Nav className="mr-auto">
+  <LinkContainer to="/profile">
+<Nav.Link>profile</Nav.Link>
+</LinkContainer>
+<LinkContainer to="/newpost">
+<Nav.Link>NewPost</Nav.Link>
+</LinkContainer>
+<LinkContainer to="/following">
+<Nav.Link>following</Nav.Link>
+</LinkContainer>
+<LinkContainer to="/likes">
+<Nav.Link>liked posts</Nav.Link>
+</LinkContainer>
+
+
+<a onClick={()=>(
+  setUser(null),
+  localStorage.removeItem("userid")
+)}>
+log out
+</a>
+</Nav>
+</Navbar.Collapse>
+</Navbar>
+
+
+
+    )
+
+  }
+    return (
+
+      returnData
+    
     )
 }
 

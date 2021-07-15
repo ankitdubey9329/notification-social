@@ -4,14 +4,27 @@ import {Form,Button} from "react-bootstrap"
 
 function Signup() {
 
-    const handleSignup= (e)=>{
+    const handleSignup= async (e)=>{
+
         e.preventDefault();
         const username= e.target.username.value;
         
+        
         const password=e.target.password.value;
+        
 
-        axios.post(`http://localhost:5000/user/create?username=${username}&password=${password}`)
-         .then(res=>res.json())
+        
+
+        axios({
+          method: 'post',
+          url:"http://localhost:5000/user/create",
+          headers: {}, 
+          data: {
+            "username":username, 
+            "password":password// This is the body part
+          }
+        })
+        
         .then(data=>console.log(data));
 
         e.target.username.value="";

@@ -1,11 +1,12 @@
-import React,{useState} from 'react'
+import React,{useContext, useState} from 'react'
 import {Form,Button} from "react-bootstrap"
 import axios from "axios"
 import Profile from './Profile'
-import { computeStyles } from '@popperjs/core'
+import {userContext} from "../context/userContext"
+
 function Login() {
 
-  const[user,setUser]=useState(null);
+  const {user,setUser}=useContext(userContext);
 
     const handleLogin= (e)=>{
 
@@ -13,15 +14,23 @@ function Login() {
         e.preventDefault();
         const username= e.target.username.value;
         
+        
         const password=e.target.password.value;
+      
 
-        axios.post("http://localhost:5000/user/login",{
-
-        "username":username,
-        "password":password
-
+        axios({
+          method: 'post',
+          url:"http://localhost:5000/user/login",
+          headers: {}, 
+          data: {
+            "username":username, 
+            "password":password
+            // This is the body part
+          }
         })
-        .then(res=>{setUser(res.data)
+        .then(res=>{
+          
+          setUser(res.data);
 
           localStorage.setItem("userid",res.data.user._id);
           // to store the data after login so that we dont login again and again

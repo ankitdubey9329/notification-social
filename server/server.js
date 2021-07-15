@@ -4,6 +4,7 @@ const mongoose= require("mongoose");
 const userRoutes=require("./routes/userRoutes.js")
 const postRoutes=require("./routes/postRoutes.js")
 
+
  
 require("dotenv").config({path:"./config/.env"})
 const mongoURI=process.env.mongoURI
@@ -30,8 +31,9 @@ db.once("open",()=>{
     next();
   });
  app.use(express.json());
+
  app.use("/user",userRoutes);
- app.use("/",postRoutes);
+ app.use("/post",postRoutes);
  
 
  

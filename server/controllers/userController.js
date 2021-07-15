@@ -10,16 +10,20 @@ module.exports.get_all=(req,res)=>{
 
 
 module.exports.post_signup=async (req,res)=>{
+
+  
+
     if(req.body){
 
         const {username,password}=req.body;
         const newUser= new user({username,password});
 
-       console.log(req.body.password);
-
         const saltRounds=10;
 
+        
+        
         bcrypt.genSalt(saltRounds,  function(err, salt) {
+
             bcrypt.hash(req.body.password, salt, function(err, hash) {
                if(err) throw err;
                 newUser.password=hash;
@@ -42,16 +46,25 @@ module.exports.post_signup=async (req,res)=>{
 }
 
 
-module.exports.post_login=(req,res)=>{
+module.exports.post_login=async (req,res)=>{
+  
     if(req.body){
 
+       
+
         const u = req.body.username;
-        user.find({username:u},(err,user)=>{
+       
+        user.findOne({username:u},(err,user1)=>{
+// here we use findOne which returns the first matching document rather than find() which returns the cursor to the document and if not found it will return some defined value
+          
             err?res.status(400).json(err):(
-                bcrypt.compare(req.body.password,user.password)
+
+
+
+                bcrypt.compare(req.body.password,user1.password)
                 .then((result)=>{
                     if(result){
-                        res.status(200).json(user);
+                        res.status(200).json(user1);
                     }
                     else{
                         res.json(" the password is incorrect")
