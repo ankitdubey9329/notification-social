@@ -10,6 +10,7 @@ router.post("/follow",userController.follow_users);
 
 router.post("/create",userController.post_signup);
 router.post("/login",userController.post_login);
+router.post("/notifications",userController.pop_notifications);
 router.delete("/delall",userController.delete_all);
 
 

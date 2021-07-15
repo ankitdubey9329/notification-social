@@ -34,12 +34,19 @@ module.exports.delete=async (req,res)=>{
 
 module.exports.handle_like=async(req,res)=>{
     if(req.body){
-        user.findById(req.body.userid,(err,user)=>{
+        user.findById(req.body.userid,(err,user0)=>{
 
             err?res.json(err):
             (post.findById(req.body.postid,(err,post)=>{
 
-                if(user.likedposts.indexOf(req.body.postid)==-1){
+                if(user0.likedposts.indexOf(req.body.postid)==-1){
+
+                    user.findById(post.authorId,(err,user1)=>{
+                        if(err) res.json(err);
+                        user1.notificatons.push(`you have new like ${post.title}`)
+                        user1.save();
+
+                    })
 
                     // if this post is not in the liked posts then push this posts to that array 
 
@@ -78,6 +85,11 @@ module.exports.new_comment=async(req,res)=>{
         comment.create({authorId:req.body.userid,postId:req.body.postid,content:req.body.content},(err,comment)=>{
             post.findById(req.body.postid,(err,post)=>{
                 if(err) res.json(err);
+
+                user.findById(post.authorId,(err,user)=>{
+                    if(err) res.json(err);
+                    user.notificatons.push(`you have new comment on post ${post.title}`);
+                })
                 post.comment.push(comment);
                 post.save();
                 res.json(post);

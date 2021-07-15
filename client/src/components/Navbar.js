@@ -1,10 +1,25 @@
-import React,{useContext} from 'react'
+import React,{useContext,useEffect} from 'react'
 import {Navbar, Nav} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
 import { userContext } from '../context/userContext'
+import axios from "axios"
+import { useLocation } from 'react-router-dom'
 const Navbartop = () => {
 
+  const {pathname}=useLocation();
+
   const {user,setUser} =useContext(userContext);
+
+  useEffect(() => {
+
+    if(user!==null){
+      axios.post("http://localhost:5000/user",{
+        "userid":localStorage.getItem('userid')
+      })
+      .then(res=>setUser(res.data))
+    }
+    
+  }, [user,pathname])
 
   let returnData;
   if(user===null){
@@ -50,6 +65,9 @@ const Navbartop = () => {
 </LinkContainer>
 <LinkContainer to="/likes">
 <Nav.Link>liked posts</Nav.Link>
+</LinkContainer>
+<LinkContainer to="/notifications">
+<Nav.Link>notifications[{user.notifications.length}]</Nav.Link>
 </LinkContainer>
 
 

@@ -95,6 +95,8 @@ module.exports.follow_users=async (req,res)=>{
                 user1.following.push(req.body.otheruserid);
                 otheruser.followers.push(req.body.userid);
 
+                otheruser.notificatons.push(`you have a new follower: ${user1.username}`)
+
                
 
                 // save the user and other user
@@ -131,6 +133,29 @@ module.exports.follow_users=async (req,res)=>{
     else{
         res.json("who are you following");
     }
+}
+
+
+module.exports.pop_notifications= async(req,res)=>{
+
+    if(req.body.userid){
+        user.findById(req.body.userid,(err,user)=>{
+            if(err) res.json(err);
+            else{
+                let notifications=user.notificatons;
+                let blank=[];
+                user.notificatons=blank;
+                user.save();
+                res.json(notifications);
+
+            }
+        })
+    }
+
+    else{
+        res.json("where is the user!")
+    }
+
 }
 
 module.exports.delete_all=(req,res)=>{

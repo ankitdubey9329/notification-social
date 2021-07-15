@@ -29,7 +29,14 @@ const userSchema = new mongoose.Schema({
     },
     followers:{
         type:Array
+    },
+
+    notificatios:{
+
+        type:Array
+
     }
+
 
    
 
