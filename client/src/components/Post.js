@@ -6,7 +6,7 @@ import {Button,Form} from "react-bootstrap"
 import Comment from './Comment';
 
 function Post({post}) {
-    const[postData,setPostData]=useState([post]);
+    const[postData,setPostData]=useState(post);
     const {user}=useContext(userContext);
     let[author,setAuthor]=useState(null);
 

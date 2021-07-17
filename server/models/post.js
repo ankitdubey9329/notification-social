@@ -30,7 +30,8 @@ const postSchema= new mongoose.Schema({
 
     },
     comments:{
-        type:Array
+        type:Array,
+        default:[]
     }
 
 

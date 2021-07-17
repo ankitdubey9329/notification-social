@@ -4,7 +4,7 @@ const router=Router();
 
 
 router.get("/",postController.get_all);
-router.post("/post",postController.get_all);
+router.post("/post",postController.get_by);
 router.post("/getbyor",postController.get_or);
 router.post("/create",postController.create);
 router.post("/like",postController.handle_like);

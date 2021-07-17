@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
         type:Array
     },
 
-    notificatios:{
+    notifications:{
 
         type:Array
 
