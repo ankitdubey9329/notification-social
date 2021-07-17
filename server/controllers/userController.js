@@ -55,12 +55,15 @@ module.exports.post_login=async (req,res)=>{
         const u = req.body.username;
        
         user.findOne({username:u},(err,user1)=>{
+
+            console.log(user1);
+            console.log(err);
 // here we use findOne which returns the first matching document rather than find() which returns the cursor to the document and if not found it will return some defined value
           
             err?res.status(400).json(err):(
 
 
-
+               
                 bcrypt.compare(req.body.password,user1.password)
                 .then((result)=>{
                     if(result){
@@ -95,7 +98,7 @@ module.exports.follow_users=async (req,res)=>{
                 user1.following.push(req.body.otheruserid);
                 otheruser.followers.push(req.body.userid);
 
-                otheruser.notificatons.push(`you have a new follower: ${user1.username}`)
+                otheruser.notifications.push(`you have a new follower: ${user1.username}`)
 
                
 
@@ -142,9 +145,9 @@ module.exports.pop_notifications= async(req,res)=>{
         user.findById(req.body.userid,(err,user)=>{
             if(err) res.json(err);
             else{
-                let notifications=user.notificatons;
+                let notifications=user.notifications;
                 let blank=[];
-                user.notificatons=blank;
+                user.notifications=blank;
                 user.save();
                 res.json(notifications);
 

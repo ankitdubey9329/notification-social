@@ -43,31 +43,31 @@ module.exports.handle_like=async(req,res)=>{
 
                     user.findById(post.authorId,(err,user1)=>{
                         if(err) res.json(err);
-                        user1.notificatons.push(`you have new like ${post.title}`)
+                        user1.notifications.push(`you have new like ${post.title}`)
                         user1.save();
 
                     })
 
                     // if this post is not in the liked posts then push this posts to that array 
 
-                    user.likedposts.push(post._id);
+                    user0.likedposts.push(post._id);
 
                     // update the likes on the post
                     post.likes++;
 
                     // save the user and the post as post is the child of user
-                    user.save();
+                    user0.save();
                     post.save();
 
 
                 }
                 else{
-                    const index=user.likedposts.indexOf(req.body.postid);
-                    user.likedposts.splice(index,1);
+                    const index=user0.likedposts.indexOf(req.body.postid);
+                    user0.likedposts.splice(index,1);
                     // remove this posts from liked posts
                    
                     post.likes--;
-                    user.save();
+                    user0.save();
                     post.save();
 
                 }
@@ -88,9 +88,9 @@ module.exports.new_comment=async(req,res)=>{
 
                 user.findById(post.authorId,(err,user)=>{
                     if(err) res.json(err);
-                    user.notificatons.push(`you have new comment on post ${post.title}`);
+                    user.notifications.push(`you have new comment on post ${post.title}`);
                 })
-                post.comment.push(comment);
+                post.comments.push(comment);
                 post.save();
                 res.json(post);
 
