@@ -32,6 +32,7 @@ function Login() {
           
           setUser(res.data);
           console.log(res.data);
+         
 
           localStorage.setItem("userid",res.data._id);
           // to store the data after login so that we dont login again and again

@@ -54,20 +54,23 @@ module.exports.post_login=async (req,res)=>{
 
         const u = req.body.username;
        
-        user.findOne({username:u},(err,user1)=>{
+        user.findOne({username:u},async (err,user1)=>{
 
-            console.log(user1);
-            console.log(err);
+            
 // here we use findOne which returns the first matching document rather than find() which returns the cursor to the document and if not found it will return some defined value
           
             err?res.status(400).json(err):(
 
 
                
-                bcrypt.compare(req.body.password,user1.password)
+                await bcrypt.compare(req.body.password,user1.password)
                 .then((result)=>{
+
+                    
                     if(result){
                         res.status(200).json(user1);
+                        console.log(user1);
+                        
                     }
                     else{
                         res.json(" the password is incorrect")
